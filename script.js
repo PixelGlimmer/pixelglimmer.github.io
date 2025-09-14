@@ -1,5 +1,5 @@
 // ====== НАСТРОЙКИ ДОСТУПА ======
-const ACCESS_ENABLED = true;              // отключить экран кода: false
+const ACCESS_ENABLED = false;              // отключить экран кода: false
 const ACCESS_CODE = "sav3t00ls";          // сменить код доступа здесь
 
 // ====== ЭЛЕМЕНТЫ ======

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0f0a" />
+  <title>SaveTools — Utilities Hub</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%234F9E09'/%3E%3Cpath d='M14 40h36v6H14zM17 18h30v4H17zM20 26h24v4H20z' fill='%230b0f0a'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <!-- 3D фон -->
+  <canvas id="bg3d" aria-hidden="true"></canvas>
+
+  <!-- Экран доступа -->
+  <div class="gate" id="gate">
+    <div class="input-card">
+      <h2 class="brand">SaveTools</h2>
+      <label class="floating">
+        <input type="password" id="access-code" placeholder=" " autocomplete="off" />
+        <span>ACCESS_CODE</span>
+      </label>
+      <button id="enterBtn" class="btn primary full">Войти</button>
+      <div class="error" id="error-msg">Неверный код</div>
+      <p class="hint">Подсказка: код можно сменить в <code>script.js</code> или отключить проверку вовсе.</p>
+    </div>
+  </div>
+
+  <!-- Лоадер -->
+  <div class="loader hidden" id="loader">
+    <div class="term">
+      <div class="hdr"><span></span><span></span><span></span></div>
+      <div class="txt" id="loader-text">Загрузка…</div>
+    </div>
+  </div>
+
+  <!-- Контент -->
+  <header class="topbar hidden" id="topbar">
+    <div class="brand-wrap">
+      <div class="logo-dot"></div>
+      <div class="brand-title">SaveTools</div>
+    </div>
+<div class="controls">
+  <div class="control">
+    <input id="q" class="search" type="search" placeholder="Поиск…" />
+  </div>
+
+  <div class="control">
+    <details class="dropdown" id="filters">
+      <summary>Фильтры</summary>
+      <div class="menu">
+        <div class="section">
+          <div class="section-title">Операционные системы</div>
+          <div class="scroll" id="os-menu"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Тэги</div>
+          <div class="scroll" id="tag-menu"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Дата добавления</div>
+          <div class="date-row">
+            <label>От <input type="date" id="date-from"></label>
+            <label>До <input type="date" id="date-to"></label>
+          </div>
+        </div>
+
+        <div class="section actions">
+          <button type="button" class="btn ghost" id="reset-filters">Сбросить</button>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="control">
+    <label class="select">
+      <select id="sort">
+        <option value="relevance">Сортировка: по релевантности</option>
+        <option value="name">По названию (А→Я)</option>
+        <option value="updated">По дате обновления (новые)</option>
+        <option value="size">По размеру (меньше→больше)</option>
+      </select>
+    </label>
+  </div>
+
+  <button id="logoutBtn" class="btn ghost">Выйти</button>
+</div>
+
+  </header>
+
+  <main class="wrap hidden" id="app">
+    <div class="stats" id="stats"></div>
+    <div class="grid" id="grid" role="list"></div>
+  </main>
+
+  <footer class="foot hidden" id="foot">
+    <div>© SaveTools · Светофор на зелёном: #4F9E09</div>
+    <div><a href="./404.html">Проверить 404</a></div>
+  </footer>
+
+  <!-- ДАННЫЕ ПРОГРАММ -->
+  <script id="tools-data" type="application/json">[
+    {
+      "id": "process-hacker",
+      "name": "Process Hacker",
+      "desc": "Расширенный диспетчер задач",
+      "href": "https://pixelglimmer.github.io/Programms/processhacker-2.39-setup.exe",
+      "os": ["Windows"],
+      "tags": ["system", "monitoring"],
+      "size": "12.4 MB",
+      "version": "2.39",
+      "updated": "2025-08-22"
+    },
+    {
+      "id": "anydesk",
+      "name": "AnyDesk",
+      "desc": "Удалённый доступ к ПК",
+      "href": "https://pixelglimmer.github.io/Programms/AnyDesk.exe",
+      "os": ["Windows", "macOS", "Linux"],
+      "tags": ["remote", "network"],
+      "size": "5.1 MB",
+      "version": "8.x",
+      "updated": "2025-07-11"
+    },
+    {
+      "id": "autohotkey",
+      "name": "AutoHotkey",
+      "desc": "Скрипты автоматизации для Windows",
+      "href": "https://pixelglimmer.github.io/Programms/AutoHotkey_2.0.19_setup.exe",
+      "os": ["Windows"],
+      "tags": ["automation", "productivity"],
+      "size": "3.6 MB",
+      "version": "2.0.19",
+      "updated": "2025-03-01"
+    },
+    {
+      "id": "simple-unlocker",
+      "name": "Simple Unlocker",
+      "desc": "Снятие ограничений Windows без сторонних утилит",
+      "href": "https://pixelglimmer.github.io/Programms/simpleunlocker_release.zip",
+      "os": ["Windows"],
+      "tags": ["system"],
+      "size": "120 KB",
+      "version": "1.0",
+      "updated": "2025-08-19"
+    },
+    {
+      "id": "keyviz",
+      "name": "KeyViz",
+      "desc": "Показ нажатий клавиш на экране",
+      "href": "https://pixelglimmer.github.io/Programms/Keyviz-v1.0.6.exe",
+      "os": ["Windows"],
+      "tags": ["productivity", "streaming"],
+      "size": "2.4 MB",
+      "version": "1.0.6",
+      "updated": "2025-05-10"
+    },
+    {
+      "id": "makutweaker",
+      "name": "MakuTweaker",
+      "desc": "Глубокая настройка Windows",
+      "href": "https://pixelglimmer.github.io/Programms/MakuTweaker Setup.exe",
+      "os": ["Windows"],
+      "tags": ["tweaks", "system"],
+      "size": "1.9 MB",
+      "version": "2.4",
+      "updated": "2025-06-04"
+    },
+    {
+      "id": "dclear",
+      "name": "DClear",
+      "desc": "Очистка диска (by PixelGlimmer)",
+      "href": "https://pixelglimmer.github.io/Programms/DClear.pyw",
+      "os": ["Windows"],
+      "tags": ["cleanup", "system"],
+      "size": "8 KB",
+      "version": "0.9",
+      "updated": "2025-02-12"
+    },
+    {
+      "id": "runasti",
+      "name": "RunAsTI64",
+      "desc": "Запуск от TrustedInstaller",
+      "href": "https://pixelglimmer.github.io/Programms/RunAsTI64.exe",
+      "os": ["Windows"],
+      "tags": ["elevation", "system"],
+      "size": "92 KB",
+      "version": "1.1",
+      "updated": "2025-04-01"
+    },
+    {
+      "id": "rarreg",
+      "name": "rarreg.key",
+      "desc": "Ключ для WinRAR (скопировать рядом с WinRAR)",
+      "href": "https://pixelglimmer.github.io/Programms/rarreg.key",
+      "os": ["Windows"],
+      "tags": ["archiver"],
+      "size": "1 KB",
+      "version": "",
+      "updated": "2025-01-20"
+    },
+    {
+      "id": "zapret",
+      "name": "zapret-discord-youtube",
+      "desc": "Снижение блокировок для Discord/YT (репозиторий релизов)",
+      "href": "https://github.com/Flowseal/zapret-discord-youtube/releases",
+      "os": ["Windows", "Linux"],
+      "tags": ["network"],
+      "size": "—",
+      "version": "—",
+      "updated": "2025-07-30"
+    },
+    {
+      "id": "python313",
+      "name": "Python 3.13 (Win x64)",
+      "desc": "Официальный инсталлятор Python 3.13.5",
+      "href": "https://www.python.org/ftp/python/3.13.5/python-3.13.5-amd64.exe",
+      "os": ["Windows"],
+      "tags": ["dev"],
+      "size": "28 MB",
+      "version": "3.13.5",
+      "updated": "2025-09-05"
+    },
+    {
+      "id": "vmware",
+      "name": "VMware Workstation 17 Pro",
+      "desc": "Виртуальные машины для ПК",
+      "href": "https://5mc2yl.soft-load.eu/b6/6/4/8d93ca35692337d9caa3847f55beacc4/VMware-workstation-full-17.6.4-24832109.exe",
+      "os": ["Windows"],
+      "tags": ["virtualization"],
+      "size": "280 MB",
+      "version": "17.6.4",
+      "updated": "2025-08-02"
+    },
+    {
+      "id": "vbox",
+      "name": "VirtualBox 7.2.0",
+      "desc": "VirtualBox от Oracle",
+      "href": "https://download.virtualbox.org/virtualbox/7.2.0/VirtualBox-7.2.0-170228-Win.exe",
+      "os": ["Windows", "Linux", "macOS"],
+      "tags": ["virtualization"],
+      "size": "107 MB",
+      "version": "7.2.0",
+      "updated": "2025-06-15"
+    }
+  ]</script>
+
+  <script src="script.js"></script>
+</body>
+</html>

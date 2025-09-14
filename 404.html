@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — Страница не найдена</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="bg3d" aria-hidden="true"></canvas>
+  <main class="wrap" style="min-height:70vh; display:grid; place-items:center; text-align:center">
+    <div class="input-card" style="max-width:520px">
+      <h1 style="margin:0 0 8px">404</h1>
+      <p style="opacity:.8; margin:0 0 16px">Похоже, вы попали в зелёную дыру. Такой страницы нет.</p>
+      <div class="row" style="justify-content:center">
+        <a href="./" class="btn primary">Вернуться на главную</a>
+      </div>
+    </div>
+  </main>
+  <script>
+  (function(){
+    const c = document.getElementById('bg3d');
+    const x = c.getContext('2d');
+    let w,h,cx,cy,t=0,m={x:0,y:0};
+    function R(){w=c.width=innerWidth;h=c.height=innerHeight;cx=w/2;cy=h/2} R(); addEventListener('resize',R);
+    addEventListener('pointermove',e=>{m.x=(e.clientX/w-.5)*2; m.y=(e.clientY/h-.5)*2});
+    const S=80,A=Array.from({length:S},()=>({x:Math.random(),y:Math.random(),z:Math.random(),r:Math.random()*6.28}));
+    (function L(){t+=.008;x.clearRect(0,0,w,h);for(const s of A){const d=(s.z+.2+Math.sin(t+s.x*5)*.2);const px=(s.x-.5+m.x*.05/d)*w*.9+cx;const py=(s.y-.5+m.y*.05/d)*h*.9+cy;const size=(1.2-d)*60;const a=s.r+t*.6;x.save();x.translate(px,py);x.rotate(a+m.x*.2);x.globalAlpha=.2+(1-d)*.6;x.fillStyle='rgba(79,158,9,.15)';x.strokeStyle='rgba(79,158,9,.35)';x.beginPath();x.moveTo(-size,-size*.35);x.lineTo(size,-size*.35);x.lineTo(size*.9,size*.35);x.lineTo(-size*.9,size*.35);x.closePath();x.fill();x.stroke();x.restore()} requestAnimationFrame(L)})(); 
+  })();
+  </script>
+</body>
+</html>

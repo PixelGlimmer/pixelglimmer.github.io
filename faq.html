@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ — Пользователям SaveTools</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#0b0f0a" />
+</head>
+<body>
+  <canvas id="bg3d" aria-hidden="true"></canvas>
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="logo-dot"></div>
+      <div class="brand-title">SaveTools</div>
+    </div>
+    <div class="controls">
+      <a class="btn ghost" href="./">Каталог</a>
+    </div>
+  </header>
+
+  <main class="wrap" style="max-width:960px">
+    <div class="input-card">
+      <h1 class="brand" style="margin:0 0 12px">FAQ для пользователей</h1>
+      <p style="opacity:.8; margin-top:0">Короткая справка о том, как найти и скачать нужную утилиту на SaveTools.</p>
+
+      <nav style="margin:6px 0 12px">
+        <a href="#what" class="btn ghost">Что такое SaveTools?</a>
+        <a href="#search" class="btn ghost">Поиск и фильтры</a>
+        <a href="#download" class="btn ghost">Скачивание</a>
+        <a href="#sort" class="btn ghost">Сортировка</a>
+        <a href="#tags" class="btn ghost">ОС и тэги</a>
+        <a href="#troubles" class="btn ghost">Если не скачивается</a>
+        <a href="#privacy" class="btn ghost">Конфиденциальность</a>
+        <a href="#contacts" class="btn ghost">Контакты</a>
+      </nav>
+
+      <section id="what" style="margin-top:6px">
+        <h3 style="margin:6px 0">Что такое SaveTools?</h3>
+        <p>Это каталог проверенных утилит: системные инструменты, твикеры, виртуализация, разработка и др. Все программы собраны в одном месте для удобного и быстрого скачивания.</p>
+      </section>
+
+      <section id="search">
+        <h3 style="margin:12px 0 6px">Как найти нужную программу?</h3>
+        <ul>
+          <li><b>Строка «Поиск»</b> — ищет по названию, описанию, тэгам и платформам.</li>
+          <li><b>Фильтры</b> — откройте меню «Фильтры» в шапке:
+            <ul>
+              <li><b>Операционные системы</b> — выберите подходящую платформу (Windows / macOS / Linux).</li>
+              <li><b>Тэги</b> — тематические метки (например, <i>system</i>, <i>network</i>, <i>dev</i>).</li>
+              <li><b>Дата обновления</b> — задайте период «От / До», чтобы видеть только актуальные версии.</li>
+            </ul>
+          </li>
+          <li><b>Сбросить</b> — кнопка внутри меню фильтров очищает все выборы.</li>
+        </ul>
+      </section>
+
+      <section id="download">
+        <h3 style="margin:12px 0 6px">Как скачать программу?</h3>
+        <ul>
+          <li>Нажмите кнопку <b>«Скачать»</b> на карточке — откроется прямая ссылка в новой вкладке.</li>
+          <li>Нужно поделиться ссылкой? Нажмите <b>«Копировать ссылку»</b> — она будет в буфере обмена.</li>
+        </ul>
+      </section>
+
+      <section id="sort">
+        <h3 style="margin:12px 0 6px">Как работает сортировка?</h3>
+        <ul>
+          <li><b>По релевантности</b> — порядок без дополнительной сортировки (на основе текущего поиска и фильтров).</li>
+          <li><b>По названию</b> — алфавитный порядок (А→Я).</li>
+          <li><b>По дате обновления</b> — сначала новые версии.</li>
+          <li><b>По размеру</b> — от меньшего к большему.</li>
+        </ul>
+      </section>
+
+      <section id="tags">
+        <h3 style="margin:12px 0 6px">Что означают ОС и тэги на карточке?</h3>
+        <ul>
+          <li><b>ОС</b> — на каких платформах доступна программа (например, Windows, macOS, Linux).</li>
+          <li><b>Тэги</b> — тип/назначение утилиты (например, <i>system</i>, <i>monitoring</i>, <i>virtualization</i>, <i>dev</i>).</li>
+        </ul>
+      </section>
+
+      <section id="troubles">
+        <h3 style="margin:12px 0 6px">Если файл не скачивается или не открывается</h3>
+        <ul>
+          <li>Проверьте соединение с интернетом и попробуйте снова.</li>
+          <li>Откройте ссылку в новой вкладке вручную (ПКМ → «Открыть ссылку в новой вкладке»).</li>
+          <li>Отключите блокировщики (adblock/antivirus) или добавьте сайт в исключения — некоторые блокируют загрузку исполняемых файлов.</li>
+          <li>На Windows при предупреждении SmartScreen нажмите «Дополнительно» → «Выполнить в любом случае», если доверяете источнику.</li>
+          <li>Если страницы нет — вернитесь на главную со страницы <a href="404.html">404</a> и попробуйте другой источник.</li>
+        </ul>
+      </section>
+
+      <section id="privacy">
+        <h3 style="margin:12px 0 6px">Конфиденциальность</h3>
+        <p>Сайт не требует регистрации и не просит персональные данные для скачивания. Некоторые функции браузера (например, буфер обмена) используются локально. Если администратор включает «экран доступа» (код), он служит лишь для ограничения входа и не собирает данные посетителя.</p>
+      </section>
+
+      <section id="contacts">
+        <h3 style="margin:12px 0 6px">Связаться</h3>
+        <p>Если заметили некорректную ссылку или хотите предложить утилиту — напишите в <a href="https://t.me/SaveToolsV2" target="_blank" rel="noopener">Telegram</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+  // Небольшой фон (как на 404), чтобы не трогать основной script.js
+  (function(){
+    const c = document.getElementById('bg3d');
+    const x = c.getContext('2d');
+    let w,h,cx,cy,t=0,m={x:0,y:0};
+    function R(){w=c.width=innerWidth;h=c.height=innerHeight;cx=w/2;cy=h/2} R(); addEventListener('resize',R);
+    addEventListener('pointermove',e=>{m.x=(e.clientX/w-.5)*2; m.y=(e.clientY/h-.5)*2});
+    const S=80,A=Array.from({length:S},()=>({x:Math.random(),y:Math.random(),z:Math.random(),r:Math.random()*6.28}));
+    (function L(){t+=.008;x.clearRect(0,0,w,h);for(const s of A){const d=(s.z+.2+Math.sin(t+s.x*5)*.2);const px=(s.x-.5+m.x*.05/d)*w*.9+cx;const py=(s.y-.5+m.y*.05/d)*h*.9+cy;const size=(1.2-d)*60;const a=s.r+t*.6;x.save();x.translate(px,py);x.rotate(a+m.x*.2);x.globalAlpha=.2+(1-d)*.6;x.fillStyle='rgba(79,158,9,.15)';x.strokeStyle='rgba(79,158,9,.35)';x.beginPath();x.moveTo(-size,-size*.35);x.lineTo(size,-size*.35);x.lineTo(size*.9,size*.35);x.lineTo(-size*.9,size*.35);x.closePath();x.fill();x.stroke();x.restore()} requestAnimationFrame(L)})(); 
+  })();
+  </script>
+</body>
+</html>

@@ -17,6 +17,7 @@ const q = document.getElementById('q');
 const sortSel = document.getElementById('sort');
 const stats = document.getElementById('stats');
 const logoutBtn = document.getElementById('logoutBtn');
+const favBtn = document.getElementById('showFavs'); // может отсутствовать
 
 // меню фильтров
 const osMenu = document.getElementById('os-menu');
@@ -36,8 +37,32 @@ const state = {
   tags: new Set(),
   sort: 'relevance',
   dFrom: null, // Date | null
-  dTo: null    // Date | null
+  dTo: null,   // Date | null
+  favOnly: false
 };
+
+// ====== ИЗБРАННОЕ ======
+const FAV_KEY = 'st_favs';
+let _favArr = [];
+try { _favArr = JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); if(!Array.isArray(_favArr)) _favArr = []; }
+catch { _favArr = []; try { localStorage.removeItem(FAV_KEY); } catch {} }
+const favs = new Set(_favArr);
+function saveFavs(){ try { localStorage.setItem(FAV_KEY, JSON.stringify([...favs])); } catch {} }
+
+function updateFavBtn(){
+  if(!favBtn) return;
+  const n = favs.size;
+  favBtn.textContent = n ? `⭐ Избранное (${n})` : '⭐ Избранное';
+  favBtn.classList.toggle('active', state.favOnly);
+}
+
+// ====== NEW BADGE ======
+function isNew(x){
+  if (typeof x.new_utility === 'boolean') return x.new_utility;
+  if (!x.updated) return false;
+  const d = new Date(x.updated);
+  return (Date.now() - d.getTime()) <= 30*24*60*60*1000; // 30 дней
+}
 
 // ====== 3D ФОН ======
 (function initBackground(){
@@ -122,7 +147,6 @@ dateFromEl.addEventListener('change', () => {
 });
 dateToEl.addEventListener('change', () => {
   state.dTo = dateToEl.value ? new Date(dateToEl.value) : null;
-  // включаем конец дня
   if(state.dTo) state.dTo.setHours(23,59,59,999);
   update();
 });
@@ -148,7 +172,10 @@ function renderGrid(items){
     stats.textContent = `Показано 0 из ${tools.length}`;
     return;
   }
-  const html = items.map(x => `
+  const html = items.map(x => {
+    const isFav = favs.has(x.id);
+    const newBadge = isNew(x) ? `<span class="badge new">NEW</span>` : ``;
+    return `
     <article class="card" role="listitem">
       <div class="hdr">
         <div class="icon" aria-hidden="true"></div>
@@ -158,6 +185,7 @@ function renderGrid(items){
         </div>
       </div>
       <div class="badges">
+        ${newBadge}
         ${(x.os||[]).map(o => `<span class="badge">${o}</span>`).join('')}
         ${(x.tags||[]).map(t => `<span class="badge">#${t}</span>`).join('')}
       </div>
@@ -168,9 +196,11 @@ function renderGrid(items){
       </div>
       <div class="row">
         <a class="btn link" href="${x.href}" target="_blank" rel="noopener">Скачать</a>
+        <button class="btn star ${isFav ? 'active' : ''}" title="В избранное" data-fav="${x.id}">⭐</button>
         <button class="btn ghost" data-copy="${x.href}">Копировать ссылку</button>
       </div>
-    </article>`).join('');
+    </article>`;
+  }).join('');
 
   grid.innerHTML = html;
   stats.textContent = `Показано ${items.length} из ${tools.length}`;
@@ -178,6 +208,17 @@ function renderGrid(items){
   grid.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
     try{ await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'Скопировано'; setTimeout(()=> b.textContent='Копировать ссылку', 1200); }catch{}
   }));
+
+  // Избранное
+  grid.querySelectorAll('[data-fav]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.fav;
+      if(favs.has(id)){ favs.delete(id); btn.classList.remove('active'); }
+      else { favs.add(id); btn.classList.add('active'); }
+      saveFavs();
+      update(); // чтобы сразу отфильтровать, если включён режим избранного
+    });
+  });
 }
 
 // ====== ПОИСК/ФИЛЬТР/СОРТ ======
@@ -223,14 +264,17 @@ function update(){
     matchQuery(x, state.q) &&
     matchOS(x) &&
     matchTags(x) &&
-    matchDate(x)
+    matchDate(x) &&
+    (!state.favOnly || favs.has(x.id))
   );
   renderGrid(sortItems(filtered.slice()));
+  updateFavBtn();
 }
 
 // ====== СЛУШАТЕЛИ ======
 q.addEventListener('input', e => { state.q = e.target.value.trim(); update(); });
 sortSel.addEventListener('change', e => { state.sort = e.target.value; update(); });
+if(favBtn){ favBtn.addEventListener('click', () => { state.favOnly = !state.favOnly; update(); }); }
 logoutBtn.addEventListener('click', () => {
   if(!ACCESS_ENABLED) return;
   topbar.classList.add('hidden'); app.classList.add('hidden'); foot.classList.add('hidden');
@@ -249,7 +293,7 @@ function tryEnter(){
   const val = (input.value||'').trim().toLowerCase();
   if(val === ACCESS_CODE.toLowerCase()) grant(); else { err.style.display='block'; setTimeout(()=> err.style.display='none', 1500); }
 }
-enterBtn.addEventListener('click', tryEnter);
+enterBtn?.addEventListener('click', tryEnter);
 input?.addEventListener('keydown', e => { if(e.key==='Enter') tryEnter(); });
 
 // ====== СТАРТ ======
@@ -257,11 +301,10 @@ function boot(){
   renderOS();
   renderTags();
   update();
+  // сразу показывать без кода (если выключено)
+  if(!ACCESS_ENABLED){
+    const g=document.getElementById('gate'); if(g) g.classList.add('hidden');
+    topbar.classList.remove('hidden'); app.classList.remove('hidden'); foot.classList.remove('hidden');
+  }
 }
 if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
-
-// сразу показывать без кода (если выключено)
-if(!ACCESS_ENABLED){
-  document.getElementById('gate').classList.add('hidden');
-  topbar.classList.remove('hidden'); app.classList.remove('hidden'); foot.classList.remove('hidden');
-}

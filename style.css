@@ -114,3 +114,9 @@ body{
 .date-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .date-row input[type="date"] { padding: 8px 10px; border: 1px solid var(--muted); background: var(--panel); color: var(--text); border-radius: 10px; }
 .section.actions { display: flex; justify-content: flex-end; }
+.badge.new{border-color:#88ff88; background:rgba(136,255,136,.08)}
+
+/* favorites star + toggle */
+.btn.star{border-color:var(--muted); width:38px; justify-content:center; font-size:18px; line-height:1}
+.btn.star.active{border-color:var(--accent); box-shadow:0 0 0 3px rgba(79,158,9,0.15) inset}
+.btn.toggle.active{border-color:var(--accent); box-shadow:var(--ring)}

@@ -37,7 +37,8 @@ README — что изменилось и как этим пользоватьс
   "tags": ["productivity"],
   "size": "2.4 MB",
   "version": "1.0.6",
-  "updated": "2025-09-01"
+  "updated": "2025-09-01",
+  "new_utility": false
 }
 
 

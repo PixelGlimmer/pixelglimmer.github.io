@@ -120,3 +120,21 @@ body{
 .btn.star{border-color:var(--muted); width:38px; justify-content:center; font-size:18px; line-height:1}
 .btn.star.active{border-color:var(--accent); box-shadow:0 0 0 3px rgba(79,158,9,0.15) inset}
 .btn.toggle.active{border-color:var(--accent); box-shadow:var(--ring)}
+@font-face {
+    font-family: 'FeatureMono';
+    src: url('../font/FeatureMono-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Делаем этот шрифт основным */
+html, body {
+    font-family: 'FeatureMono', monospace;
+}
+
+/* Чтобы наверняка применялся везде */
+*, button, input, select, textarea {
+    font-family: 'FeatureMono', monospace !important;
+}
+

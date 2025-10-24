@@ -137,4 +137,81 @@ html, body {
 *, button, input, select, textarea {
     font-family: 'FeatureMono', monospace !important;
 }
+/* ====== АНОНС БАННЕР ====== */
+.announcement-banner {
+  background: linear-gradient(135deg, #4F9E09 0%, #3a7a07 100%);
+  color: white;
+  padding: 15px 20px;
+  text-align: center;
+  border-radius: 12px;
+  margin: 20px auto;
+  max-width: 1200px;
+  box-shadow: 0 4px 20px rgba(79, 158, 9, 0.4);
+  border: 1px solid #5cb30b;
+  position: relative;
+  overflow: hidden;
+  font-family: 'FeatureMono', monospace;
+}
 
+.announcement-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.announcement-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0 0 8px 0;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.announcement-desc {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 14px;
+}
+
+.announcement-link {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.3);
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.announcement-link:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-1px);
+}
+
+/* Адаптивность для баннера */
+@media (max-width: 768px) {
+  .announcement-banner {
+    margin: 15px;
+    padding: 12px 15px;
+  }
+  
+  .announcement-title {
+    font-size: 16px;
+  }
+  
+  .announcement-desc {
+    font-size: 13px;
+  }
+}
